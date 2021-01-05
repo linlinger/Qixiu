@@ -1,0 +1,230 @@
+Steps to Create an Archiso built Arch Respin
+
+Archiso is a tool for building Arch Linux live CD ISO images. The official images are built with Archiso. Archiso is configurable and can be used as the basis for different systems.
+
+-----------------------------------
+
+For the purposes of this instruction document, let me define some terms used throughout:
+
+build directory = the folder where you collect all the files needed to include into your build
+working releng = the releng folder that you copied from /usr/share/archiso/configs/
+
+Commands prefeced by "$" are meant to be run as your regular user.
+Commands prefaced by "#" are meant to be run as root.
+
+------------------------------------
+
+1. Before we begin, run a full system update, install archiso, and clear the package cache:
+
+# pacman -Syu
+# pacman -S archiso mkinitcpio-archiso
+# pacman -Scc
+
+------------------------------------
+
+2. If you are planning to build the Calamares Installer, install its build and runtime dependencies:
+
+# pacman -S --needed boost cmake extra-cmake-modules libpwquality qt5ct qt5-location qt5-svg qt5-webengine yaml-cpp hwinfo plasma-framework qt5-translations upower kcoreaddons kconfig ki18n kpmcore kservice kwidgetsaddons dmidecode doxygen kparts polkit-qt5 python qt5-tools qt5-xmlpatterns solid
+
+3. Collect all files needed to add to your build and copy them into your build directory. For example, boot splash image of 640x480 pixels, list of packages you want to include, any desktop settings files, custom scripts, custom settings files, etc.
+
+-------------------------------------
+
+4. Copy the releng config profile directory to somewhere in your /home folder:
+
+# cp -r /usr/share/archiso/configs/releng/ ./
+
+This example copies the releng folder into your current working directory.
+
+-------------------------------------
+
+5. Open the packages.x86_64 file inside the working releng folder and look over the files included by default. Add any files you wish to the end of the list. You can add comments prefaced by the # symbol. If you wish to include Calamares in your build, copy the file list from Step 2 listing Calamares dependencies into the packages.x86_64 file along with your own choices.
+
+--------------------------------------
+
+6. Use a custom local repository to include packages not available in the standard Arch repositories. Calamares is a good example, along with two packages that Calamares uses that must also be custom built. Look at my Calamares-20201218.tar file for my compiled packages and PKGBUILD files. You can customize the PKGBUILD files to meet your own needs. Compiling software is outside the scope of this document.
+
+Once your packages are built, copy them to the /opt/ezrepo folder in the build directory and build the ezrepo database files to build your custom local repository. You can choose another name for your custom local repository, but for my example, I will use my template. Open a terminal in the /opt/ezrepo folder and run this command as your regular user to create your repository database files with your packages.
+
+$ repo-add ./ezrepo.db.tar.gz calamares-3.2.35.1-1-x86_64.pkg.tar.zst ckbcomp-1.199-1-any.pkg.tar.zst mkinitcpio-openswap-0.1.0-3-any.pkg.tar.zst
+
+In the above example, notice how each package is the exact filename, not the package name. Four new repository database files should be created by this command. when you exit the terminal, any lock file should automatically be deleted if present.
+
+Now you need to make directory path and copy the ./opt/ezrepo folder into the working releng folder, like so:
+
+# mkdir -p ./releng/airootfs/opt
+# cp -r ./opt/ezrepo ./releng/airootfs/opt/
+
+Also copy the ./opt/ezrepo folder into place in your running system's filesystem, like so:
+
+# cp -r ./opt/ezrepo /opt/
+
+Once you have your custom local repository copied into the two locations, you need to add it to the pacman.conf file in the build directory AND the pacman.conf file in /etc. In my template, the repositry stanza in both pacman.conf files reads:
+
+First, backup your current /etc/pacman.conf:
+
+# cp /etc/pacman.conf /etc/pacman.conf.prev
+
+Then echo the following lines into your system's /etc/pacman.conf:
+
+# echo "# Temporarily add ezrepo.
+[ezrepo]
+SigLevel = Optional TrustAll
+Server = file:///opt/ezrepo" >> /etc/pacman.conf
+
+Then echo the same lines into your ./releng/pacman.conf
+
+# echo "# Temporarily add ezrepo.
+[ezrepo]
+SigLevel = Optional TrustAll
+Server = file:///opt/ezrepo" >> ./releng/pacman.conf
+
+After you edit the /etc/pacman.conf file, run:
+
+# pacman -Sy 
+
+to update the repository database files in your system. Include the package names in your packages.x86_64 file in the build directory.
+
+******* IMPORTANT STEP ********
+
+After the build has completed, remove the custom repository stanza from your /etc/pacman.conf file by moving the backup file back to /etc/pacman.conf:
+
+# mv /etc/pacman.conf.prev /etc/pacman.conf.
+
+---------------------------------------
+
+7. Add your files to the working releng folder from your build directory
+(do this as root so the ownership is root):
+
+# cp packages.x86_64 ./releng/
+# cp pacman.conf ./releng/
+# cp splash.png ./releng/syslinux/
+# cp profiledef.sh ./releng/
+# cp -r usr ./releng/airootfs/
+# cp -r etc ./releng/airootfs/
+
+The commands copy my packages.x86_64, pacman.conf, boot splash image, profiledef.sh, and all the custom files in /usr, /etc, /opt, and xfce4 folders. The first four files are mandatory if you have made any changes to the defaults from the releng folder in the configs. The contents of the folders are arbitrary and depends on what you wish to do with the system and how you want it to function.
+
+The profiledef.sh file is where you will give your ISO a name and set a few other options, importantly, where you will set appropriate file permissions on any files you add to the build that differ from the archiso defaults. By default, archiso will set any file added to the build to octal 644 ( rw-r--r-- )and any folder to octal 755 ( rwxr-xr-x ). So , any script I add must be manually specified 755 if I want that script to executable in the build.
+
+------------------------------------
+
+8. Systemd units. To enable systemd services/sockets/timers for the live environment, you need to manually create the symbolic links just as systemctl enable does it. I chose to remove systemd-networkd and add NetworkManager (among a few others). To remove systemd-networkd, I examined the contents of the working releng folder to identify exactly which systemd units to remove. here is a list of what I found:
+
+# rm -r ./releng/airootfs/etc/systemd/network
+# rm -r ./releng/airootfs/etc/systemd/system/systemd-networkd-wait-online.service.d
+# rm ./releng/airootfs/etc/systemd/system/dbus-org.freedesktop.network1.service
+# rm ./releng/airootfs/etc/systemd/system/multi-user.target.wants/systemd-networkd.service
+# rm ./releng/airootfs/etc/systemd/system/multi-user.target.wants/iwd.service
+# rm ./releng/airootfs/etc/systemd/system/sockets.target.wants/systemd-networkd.socket
+# rm ./releng/airootfs/etc/systemd/system/network-online.target.wants/systemd-networkd-wait-online.service
+# rm -r ./releng/airootfs/etc/systemd/system/getty@tty1.service.d
+
+The first seven lines all relate to systemd-networkd. The last line removes the automatic login unit.
+
+Here are the systemd units I add to the build:
+
+# ln -sf /usr/lib/systemd/system/NetworkManager-wait-online.service ./releng/airootfs/etc/systemd/system/network-online.target.wants/NetworkManager-wait-online.service
+# ln -sf /usr/lib/systemd/system/NetworkManager.service ./releng/airootfs/etc/systemd/system/multi-user.target.wants/NetworkManager.service
+# ln -sf /usr/lib/systemd/system/NetworkManager-dispatcher.service ./releng/airootfs/etc/systemd/system/dbus-org.freedesktop.nm-dispatcher.service
+# ln -sf /usr/lib/systemd/system/lightdm.service ./releng/airootfs/etc/systemd/system/display-manager.service
+# mkdir -p ./releng/airootfs/etc/systemd/system/sysinit.target.wants
+# ln -sf /usr/lib/systemd/system/haveged.service ./releng/airootfs/etc/systemd/system/sysinit.target.wants/haveged.service
+# ln -sf /usr/lib/systemd/system/localegen.service ./releng/airootfs/etc/systemd/system/multi-user.target.wants/localegen.service
+
+The first three lines add NetworkManager, the fourth and fifth lines add lightdm and haveged, and the last line adds a custom systemd unit that runs a custom script that runs the locale-gen command to set the locale properly. The localegen.service unit is needed since I remove the customize_airootfs.sh script from the working releng folder as that file is due to be deprecated at some point and I do not want to rely on it.
+
+------------------------------------
+
+9. Users and passwords. To create a user which will be available in the live environment, you must manually edit archlive/airootfs/etc/passwd, archlive/airootfs/etc/shadow, archlive/airootfs/etc/group and archlive/airootfs/etc/gshadow. Before I create these four files, I use variables to set the username, user password, and root password, like this:
+
+# usr_name="live"
+# usr_pass="live"
+# root_pass="toor"
+
+Now, I can use these variables in the following commands to create the passwd, group, shadow, and gshadow files:
+
+# echo "root:x:0:0:root:/root:/usr/bin/bash
+${usr_name}:x:1010:1010::/home/${usr_name}:/bin/bash" > ./releng/airootfs/etc/passwd
+
+# echo "root:x:0:root
+sys:x:3:${usr_name}
+adm:x:4:${usr_name}
+wheel:x:10:${usr_name}
+log:x:19:${usr_name}
+network:x:90:${usr_name}
+floppy:x:94:${usr_name}
+scanner:x:96:${usr_name}
+power:x:98:${usr_name}
+rfkill:x:850:${usr_name}
+users:x:985:${usr_name}
+video:x:860:${usr_name}
+storage:x:870:${usr_name}
+optical:x:880:${usr_name}
+lp:x:840:${usr_name}
+audio:x:890:${usr_name}
+${usr_name}:x:1010:" > ./releng/airootfs/etc/group
+
+# usr_hash=$(openssl passwd -6 "${usr_pass}")
+root_hash=$(openssl passwd -6 "${root_pass}")
+echo "root:${root_hash}:14871::::::
+${usr_name}:${usr_hash}:14871::::::" > ./releng/airootfs/etc/shadow
+
+# echo "root:!*::root
+${usr_name}:!*::" > ./releng/airootfs/etc/gshadow
+
+If the gshadow file cannot be created with the above command, you will need to manually create the file and copy the contents.
+
+Make sure /etc/shadow and /etc/gshadow have the correct permissions:
+
+archlive/profiledef.sh
+...
+file_permissions=(
+  ...
+  ["/etc/shadow"]="0:0:0400"
+  ["/etc/gshadow"]="0:0:0400"
+)
+
+After package installation, mkarchiso will create all specified home directories for users listed in archlive/airootfs/etc/passwd and copy work_directory/x86_64/airootfs/etc/skel/* to them. The copied files will have proper user and group ownership.
+
+-----------------------------------
+
+10. Some steps not covered in the Arch Wiki archiso page. I set the keyboard layout, the keymap, the keyboard type in Xorg, and the loacale.conf files:
+
+# echo "KEYMAP=us" > ./releng/airootfs/etc/vconsole.conf
+
+# mkdir -p ./releng/airootfs/etc/X11/xorg.conf.d
+# echo "Section \"InputClass\"
+        Identifier \"system-keyboard\"
+        MatchIsKeyboard \"on\"
+        Option \"XkbLayout\" \"us\"
+        Option \"XkbModel\" \"pc105\"
+EndSection" > ./releng/airootfs/etc/X11/xorg.conf.d/00-keyboard.conf
+
+# echo "LANG=en_US.UTF-8" > ./releng/airootfs/etc/locale.conf
+
+The last step I do before issuing the mkarchiso command is run reflector:
+
+# reflector --age 3 --protocol https --save ./releng/airootfs/etc/pacman.d/mirrorlist
+
+This reflector command grabs the https mirrors updated in the last three hours and writes that list to /etc/pacman.d/mirrorlist inside the working releng folder.
+
+-----------------------------------
+
+11. Run mkarchiso. This command begins the build process and can take anywhere from a few minutes to half an hour, depending on the speed of the downloads and time to compress the squashfs filesystem:
+
+mkarchiso -v -w ./work -o ./out ./releng
+
+-----------------------------------
+
+******* IMPORTANT STEP ********
+
+After the build has completed, remove the custom repository stanza from your /etc/pacman.conf file by moving the backup file back to /etc/pacman.conf:
+
+# mv /etc/pacman.conf.prev /etc/pacman.conf.
+
+-----------------------------------
+
+build-instructions
+# Revision: 2 -- by eznix (https://sourceforge.net/projects/ezarch/)
+# (GNU/General Public License version 3.0)
