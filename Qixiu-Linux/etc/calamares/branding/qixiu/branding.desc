@@ -123,17 +123,17 @@ navigation: widget
 # are set to "true" (they can also be overridden).
 strings:
     productName:         "@{NAME}"
-    shortProductName:    Ezarcher
+    shortProductName:    Qixiu
     version:             2021
     shortVersion:        2021
-    versionedName:       Ezarcher Linux
-    shortVersionedName:  Ezarcher Linux
-    bootloaderEntryName: Ezarcher
-    productUrl:          https://sourceforge.net/projects/ezarch/
-#   supportUrl:          https://sourceforge.net/projects/ezarch/
-#   knownIssuesUrl:      https://sourceforge.net/projects/ezarch/
-#   releaseNotesUrl:     https://sourceforge.net/projects/ezarch/
-#   donateUrl:           https://sourceforge.net/projects/ezarch/
+    versionedName:       Qixiu Linux
+    shortVersionedName:  Qixiu Linux
+    bootloaderEntryName: Qixiu
+    productUrl:          https://github.com/linlinger/Qixiu
+#   supportUrl:          https://github.com/linlinger/Qixiu
+#   knownIssuesUrl:      https://github.com/linlinger/Qixiu
+#   releaseNotesUrl:     https://github.com/linlinger/Qixiu
+#   donateUrl:           https://github.com/linlinger/Qixiu
 
 # These images are loaded from the branding module directory.
 #
