@@ -7,10 +7,11 @@ b43-fwcutter
 base
 bind-tools
 brltty
-broadcom-wl
+broadcom-wl-dkms
 btrfs-progs
 clonezilla
 crda
+cryptsetup
 darkhttpd
 ddrescue
 dhclient
@@ -19,6 +20,7 @@ diffutils
 dmraid
 dnsmasq
 dosfstools
+e2fsprogs
 edk2-shell
 efibootmgr
 espeakup
@@ -32,16 +34,19 @@ gpart
 gpm
 gptfdisk
 grml-zsh-config
-haveged
 hdparm
 intel-ucode
 ipw2100-fw
 ipw2200-fw
 irssi
+iw
 iwd
 jfsutils
 kitty-terminfo
+less
 lftp
+libfido2
+libusb-compat
 linux
 linux-atm
 linux-firmware
@@ -57,6 +62,7 @@ memtest86+
 mkinitcpio
 mkinitcpio-archiso
 mkinitcpio-nfs-utils
+modemmanager
 mtools
 nano
 nbd
@@ -72,16 +78,20 @@ openvpn
 partclone
 parted
 partimage
+pcsclite
 ppp
 pptpclient
+qemu-guest-agent
 reflector
 reiserfsprogs
 rp-pppoe
 rsync
 rxvt-unicode-terminfo
+screen
 sdparm
 sg3_utils
 smartmontools
+sof-firmware
 squashfs-tools
 sudo
 syslinux
@@ -91,10 +101,13 @@ terminus-font
 termite-terminfo
 testdisk
 tmux
+tpm2-tss
 udftools
 usb_modeswitch
+usbmuxd
 usbutils
 vim
+virtualbox-guest-utils-nox
 vpnc
 wireless-regdb
 wireless_tools
@@ -103,7 +116,6 @@ wvdial
 xfsprogs
 xl2tpd
 zsh
-
 
 # System
 archiso
@@ -134,8 +146,10 @@ os-prober
 p7zip
 packagekit
 pacman-contrib
+pahole
 perl
 pkgfile
+plocate
 tlp
 udftools
 unace
@@ -179,8 +193,17 @@ libdvdcss
 libopenraw
 mencoder
 mjpegtools
-pavucontrol
 poppler-glib
+# Pipewire - comment pulseaudio packages if using pipewire
+# pipewire
+# pipewire-alsa
+# pipewire-docs
+# pipewire-jack
+# pipewire-media-session
+# pipewire-pulse
+# alsa-card-profiles
+# gst-plugin-pipewire
+# Pulseaudio - comment pipewire packages if using pulseaudio
 pulseaudio
 pulseaudio-alsa
 pulseaudio-bluetooth
@@ -193,8 +216,8 @@ transcode
 vlc
 x265
 x264
-#xvidcore
-#youtube-dl
+xvidcore
+youtube-dl
 
 # XORG
 mesa
@@ -209,15 +232,15 @@ xterm
 # Networking
 avahi
 curl
-#dnsutils
-#ethtool
-#filezilla
+dnsutils
+ethtool
+filezilla
 firefox
-#gnome-nettool
-#modemmanager
+gnome-nettool
+modemmanager
 netctl
 networkmanager
-#networkmanager-openvpn
+networkmanager-openvpn
 nm-connection-editor
 network-manager-applet
 net-tools
@@ -229,6 +252,7 @@ whois
 
 # Desktop
 aisleriot
+geany
 meld
 neofetch
 papirus-icon-theme
@@ -246,21 +270,41 @@ noto-fonts
 opendesktop-fonts
 ttf-opensans
 freetype2
-#Chinese fonts
-wqy-zenhhei
+
+# Printing Support
+cups
+cups-pdf
+cups-filters
+cups-pk-helper
+foomatic-db
+foomatic-db-engine
+ghostscript
+gsfonts
+gutenprint
+python-pillow
+python-pip
+python-pyqt5
+python-reportlab
+simple-scan
+system-config-printer
+
 # KDE
 ark
 breeze-icons
-#discover
+cryfs
+discover
 dolphin
+encfs
+gocryptfs
+gwenview
 k3b
 kcalc
 konsole
 kwrite
-gwenview
 networkmanager-qt
 okular
 packagekit-qt5
+pavucontrol
 pavucontrol-qt
 plasma
 print-manager
@@ -271,47 +315,41 @@ sweeper
 sddm
 sddm-kcm
 
-# calamares.dependencies
+# Calamares dependencies
 boost
 cmake
+dmidecode
+doxygen
 extra-cmake-modules
-libpwquality
-qt5ct
-qt5-location
-qt5-svg
-qt5-webengine
-yaml-cpp
+gtk-update-icon-cache
 hwinfo
-plasma-framework
-qt5-translations
-
-# calamares.welcome
-upower
-
-# calamares.partition
 kcoreaddons
 kconfig
+kdbusaddons
 ki18n
+kiconthemes
+kio
+kparts
 kpmcore
 kservice
 kwidgetsaddons
-
-# calamares.others
-dmidecode
-doxygen
-kparts
+libpwquality
+plasma-framework
 polkit-qt5
 python
+qt5ct
+qt5-location
+qt5-svg
 qt5-tools
+qt5-translations
+qt5-webengine
 qt5-xmlpatterns
 solid
+upower
+yaml-cpp
 
 # Calamares
 calamares
 ckbcomp
 mkinitcpio-openswap
 
-#Preinstalled software
-yay
-archlinuxcn-keyring
-plymouth

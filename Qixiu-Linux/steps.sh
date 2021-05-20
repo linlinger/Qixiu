@@ -1,7 +1,49 @@
 #!/bin/bash
 
-# Revision: 2 -- by eznix (https://sourceforge.net/projects/ezarch/)
+# Version: 4 -- by eznix (https://sourceforge.net/projects/ezarch/)
+# Revision: 2021.05.02
 # (GNU/General Public License version 3.0)
+
+# ----------------------------------------
+# Define Variables
+# ----------------------------------------
+
+LCLST="en_US"
+# Format is language_COUNTRY where language is lower case two letter code
+# and country is upper case two letter code, separated with an underscore
+
+KEYMP="us"
+# Use lower case two letter country code
+
+KEYMOD="pc105"
+# pc105 and pc104 are modern standards, all others need to be researched
+
+MYUSERNM="live"
+# use all lowercase letters only
+
+MYUSRPASSWD="live"
+# Pick a password of your choice
+
+RTPASSWD="toor"
+# Pick a root password
+
+MYHOSTNM="ezarcher"
+# Pick a hostname for the machine
+
+# ----------------------------------------
+# Functions
+# ----------------------------------------
+
+# Test for root user
+rootuser () {
+  if [[ "$EUID" = 0 ]]; then
+    continue
+  else
+    echo "Please Run As Root"
+    sleep 2
+    exit
+  fi
+}
 
 # Display line error
 handlerror () {
@@ -18,33 +60,35 @@ cleanup () {
 sleep 2
 }
 
+# Requirements and preparation
+prepreqs () {
+pacman -S --noconfirm archlinux-keyring
+pacman -S --needed --noconfirm archiso mkinitcpio-archiso
+}
+
 # Copy releng to working directory
 cpreleng () {
 cp -r /usr/share/archiso/configs/releng/ ./
 }
 
-# Copy qxrepo to opt
-cpqxrepo () {
-cp -r ./opt/qxrepo /opt/
+# Copy ezrepo to opt
+cpezrepo () {
+cp -r ./opt/ezrepo /opt/
 }
 
-# Add qxrepo to pacman.conf
-# repo created with:
-# repo-add ./qxrepo.db.tar.gz calamares-3.2.35.1-1-x86_64.pkg.tar.zst ckbcomp-1.199-1-any.pkg.tar.zst mkinitcpio-openswap-0.1.0-3-any.pkg.tar.zst
-addqxrepo () {
+# Add ezrepo to pacman.conf
+addezrepo () {
 cp /etc/pacman.conf /etc/pacman.conf.prev
-echo "# Temporarily add qxrepo.
-[archlinuxcn]
-Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
-[qxrepo]
+echo "# Temporarily add ezrepo.
+[ezrepo]
 SigLevel = Optional TrustAll
-Server = file:///opt/qxrepo" >> /etc/pacman.conf
+Server = file:///opt/ezrepo" >> /etc/pacman.conf
 pacman -Sy
 }
 
-# Remove qxrepo from opt
-rmqxrepo () {
-rm -r /opt/qxrepo
+# Remove ezrepo from opt
+rmezrepo () {
+rm -r /opt/ezrepo
 }
 
 # Restore original pacman.conf
@@ -57,15 +101,12 @@ nalogin () {
 [[ -d ./releng/airootfs/etc/systemd/system/getty@tty1.service.d ]] && rm -r ./releng/airootfs/etc/systemd/system/getty@tty1.service.d
 }
 
-# Remove systemd-networkd
-rmnetworkd () {
-[[ -d ./releng/airootfs/etc/systemd/network ]] && rm -r ./releng/airootfs/etc/systemd/network
-[[ -d ./releng/airootfs/etc/systemd/system/systemd-networkd-wait-online.service.d ]] && rm -r ./releng/airootfs/etc/systemd/system/systemd-networkd-wait-online.service.d
-[[ -f ./releng/airootfs/etc/systemd/system/dbus-org.freedesktop.network1.service ]] && rm ./releng/airootfs/etc/systemd/system/dbus-org.freedesktop.network1.service
-[[ -f ./releng/airootfs/etc/systemd/system/multi-user.target.wants/systemd-networkd.service ]] && rm ./releng/airootfs/etc/systemd/system/multi-user.target.wants/systemd-networkd.service
+# Remove pacman.d hooks & cloud-init
+rmunitsd () {
+[[ -d ./releng/airootfs/etc/pacman.d/hooks ]] && rm -r ./releng/airootfs/etc/pacman.d/hooks
+[[ -d ./releng/airootfs/etc/systemd/system/cloud-init.target.wants ]] && rm -r ./releng/airootfs/etc/systemd/system/cloud-init.target.wants
 [[ -f ./releng/airootfs/etc/systemd/system/multi-user.target.wants/iwd.service ]] && rm ./releng/airootfs/etc/systemd/system/multi-user.target.wants/iwd.service
-[[ -f ./releng/airootfs/etc/systemd/system/sockets.target.wants/systemd-networkd.socket ]] && rm ./releng/airootfs/etc/systemd/system/sockets.target.wants/systemd-networkd.socket
-[[ -f ./releng/airootfs/etc/systemd/system/network-online.target.wants/systemd-networkd-wait-online.service ]] && rm ./releng/airootfs/etc/systemd/system/network-online.target.wants/systemd-networkd-wait-online.service
+[[ -f ./releng/airootfs/etc/xdg/reflector/reflector.conf ]] && rm ./releng/airootfs/etc/xdg/reflector/reflector.conf
 }
 
 # Add NetworkManager, localegen, lightdm, & haveged systemd links
@@ -81,78 +122,68 @@ ln -sf /usr/lib/systemd/system/sddm.service ./releng/airootfs/etc/systemd/system
 ln -sf /usr/lib/systemd/system/haveged.service ./releng/airootfs/etc/systemd/system/sysinit.target.wants/haveged.service
 }
 
-# Delete customize_airootfs.sh, it's not needed anymore.
-rmcustairoot () {
-[[ -f ./releng/airootfs/root/customize_airootfs.sh ]] && rm ./releng/airootfs/root/customize_airootfs.sh
-}
-
 # Copy files to customize the ISO
 cpmyfiles () {
 cp packages.x86_64 ./releng/
 cp pacman.conf ./releng/
-cp splash.png ./releng/syslinux/
 cp profiledef.sh ./releng/
+cp -r efiboot ./releng/
+cp -r syslinux ./releng/
 cp -r usr ./releng/airootfs/
 cp -r etc ./releng/airootfs/
 cp -r opt ./releng/airootfs/
+ln -sf /usr/share/ezarcher ./releng/airootfs/etc/skel/ezarcher
 }
 
 # Set hostname
 sethostname () {
-echo "qixiu" > ./releng/airootfs/etc/hostname
-}
-
-# Set username, user password and root password
-setpasswd () {
-usr_name="qixiu"
-usr_pass="qixiu"
-root_pass="toor"
+echo "${MYHOSTNM}" > ./releng/airootfs/etc/hostname
 }
 
 # Create passwd file
 crtpasswd () {
 echo "root:x:0:0:root:/root:/usr/bin/bash
-${usr_name}:x:1010:1010::/home/${usr_name}:/bin/bash" > ./releng/airootfs/etc/passwd
+"${MYUSERNM}":x:1010:1010::/home/"${MYUSERNM}":/bin/bash" > ./releng/airootfs/etc/passwd
 }
 
 # Create group file
 crtgroup () {
 echo "root:x:0:root
-sys:x:3:${usr_name}
-adm:x:4:${usr_name}
-wheel:x:10:${usr_name}
-log:x:19:${usr_name}
-network:x:90:${usr_name}
-floppy:x:94:${usr_name}
-scanner:x:96:${usr_name}
-power:x:98:${usr_name}
-rfkill:x:850:${usr_name}
-users:x:985:${usr_name}
-video:x:860:${usr_name}
-storage:x:870:${usr_name}
-optical:x:880:${usr_name}
-lp:x:840:${usr_name}
-audio:x:890:${usr_name}
-${usr_name}:x:1010:" > ./releng/airootfs/etc/group
+sys:x:3:"${MYUSERNM}"
+adm:x:4:"${MYUSERNM}"
+wheel:x:10:"${MYUSERNM}"
+log:x:19:"${MYUSERNM}"
+network:x:90:"${MYUSERNM}"
+floppy:x:94:"${MYUSERNM}"
+scanner:x:96:"${MYUSERNM}"
+power:x:98:"${MYUSERNM}"
+rfkill:x:850:"${MYUSERNM}"
+users:x:985:"${MYUSERNM}"
+video:x:860:"${MYUSERNM}"
+storage:x:870:"${MYUSERNM}"
+optical:x:880:"${MYUSERNM}"
+lp:x:840:"${MYUSERNM}"
+audio:x:890:"${MYUSERNM}"
+"${MYUSERNM}":x:1010:" > ./releng/airootfs/etc/group
 }
 
 # Create shadow file
 crtshadow () {
-usr_hash=$(openssl passwd -6 "${usr_pass}")
-root_hash=$(openssl passwd -6 "${root_pass}")
-echo "root:${root_hash}:14871::::::
-${usr_name}:${usr_hash}:14871::::::" > ./releng/airootfs/etc/shadow
+usr_hash=$(openssl passwd -6 "${MYUSRPASSWD}")
+root_hash=$(openssl passwd -6 "${RTPASSWD}")
+echo "root:"${root_hash}":14871::::::
+"${MYUSERNM}":"${usr_hash}":14871::::::" > ./releng/airootfs/etc/shadow
 }
 
 # create gshadow file
 crtgshadow () {
 echo "root:!*::root
-${usr_name}:!*::" > ./releng/airootfs/etc/gshadow
+"${MYUSERNM}":!*::" > ./releng/airootfs/etc/gshadow
 }
 
 # Set the keyboard layout
 setkeylayout () {
-echo "KEYMAP=us" > ./releng/airootfs/etc/vconsole.conf
+echo "KEYMAP="${KEYMP}"" > ./releng/airootfs/etc/vconsole.conf
 }
 
 # Create 00-keyboard.conf file
@@ -161,22 +192,15 @@ mkdir -p ./releng/airootfs/etc/X11/xorg.conf.d
 echo "Section \"InputClass\"
         Identifier \"system-keyboard\"
         MatchIsKeyboard \"on\"
-        Option \"XkbLayout\" \"us\"
-        Option \"XkbModel\" \"pc105\"
+        Option \"XkbLayout\" \""${KEYMP}"\"
+        Option \"XkbModel\" \""${KEYMOD}"\"
 EndSection" > ./releng/airootfs/etc/X11/xorg.conf.d/00-keyboard.conf
 }
 
-# Create locale.conf file
+# Create locale.gen and locale.conf files
 crtlocalec () {
-echo "LANG=en_US.UTF-8" > ./releng/airootfs/etc/locale.conf
-}
-
-# Generate mirrorlist
-mkmirrorlist () {
-echo "Generating mirrorlist, please be patient..."
-mkdir -p ./releng/airootfs/etc/pacman.d
-reflector --age 3 --protocol https --save ./releng/airootfs/etc/pacman.d/mirrorlist
-sleep 2
+echo ""${LCLST}".UTF-8 UTF-8" >> ./releng/airootfs/etc/locale.gen
+echo "LANG="${LCLST}".UTF-8" > ./releng/airootfs/etc/locale.conf
 }
 
 # Start mkarchiso
@@ -184,20 +208,22 @@ runmkarchiso () {
 mkarchiso -v -w ./work -o ./out ./releng
 }
 
-######
+# ----------------------------------------
+# Run Functions
+# ----------------------------------------
 
+rootuser
 handlerror
+prepreqs
 cleanup
 cpreleng
 addnmlinks
-cpqxrepo
-addqxrepo
+cpezrepo
+addezrepo
 nalogin
-rmnetworkd
-rmcustairoot
+rmunitsd
 cpmyfiles
 sethostname
-setpasswd
 crtpasswd
 crtgroup
 crtshadow
@@ -205,10 +231,8 @@ crtgshadow
 setkeylayout
 crtkeyboard
 crtlocalec
-mkmirrorlist
 runmkarchiso
-sleep 3
-rmqxrepo
+rmezrepo
 mvpacmanconf
 
 
