@@ -53,7 +53,7 @@ Presentation
                 anchors.horizontalCenterOffset: 0
                 font.pixelSize: parent.width *.020
                 color: 'white'
-                text: qsTr("<b>Welcome to Ezarcher, an Arch based Linux<br/>")
+                text: qsTr("<b>西子湖畔西子情，楼外楼中雨霖铃。<br/>")
                 wrapMode: Text.WordWrap
                 width: parent.width / 1.4
                 horizontalAlignment: Text.AlignHCenter
@@ -80,7 +80,7 @@ Presentation
                 anchors.horizontalCenterOffset: 0
                 font.pixelSize: parent.width *.020
                 color: 'white'
-                text: qsTr("<b>Ezarcher is 100% compatible with Arch Linux<br/>")
+                text: qsTr("<b>画廊绣舫霓裳舞，小桥流水叶娉婷。<br/>")
                 
                 wrapMode: Text.WordWrap
                 width: parent.width / 1.4
@@ -135,7 +135,7 @@ Presentation
                 anchors.horizontalCenterOffset: 0
                 font.pixelSize: parent.width *.020
                 color: 'white'
-                text: qsTr("<b>Thank you for trying Ezarcher<br/>")
+                text: qsTr("<b>Thank you for trying Qixiu Linux<br/>")
                 wrapMode: Text.WordWrap
                 width: parent.width / 1.4
                 horizontalAlignment: Text.AlignHCenter
