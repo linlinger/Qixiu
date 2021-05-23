@@ -80,7 +80,7 @@ cp -r ./opt/ezrepo /opt/
 addezrepo () {
 cp /etc/pacman.conf /etc/pacman.conf.prev
 echo "# Temporarily add ezrepo.
-[ezrepo]
+[qixiu]
 SigLevel = Optional TrustAll
 Server = file:///opt/qixiu" >> /etc/pacman.conf
 pacman -Sy
