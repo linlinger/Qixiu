@@ -18,16 +18,16 @@ KEYMP="us"
 KEYMOD="pc105"
 # pc105 and pc104 are modern standards, all others need to be researched
 
-MYUSERNM="live"
+MYUSERNM="qixiu"
 # use all lowercase letters only
 
-MYUSRPASSWD="live"
+MYUSRPASSWD="qixiu"
 # Pick a password of your choice
 
-RTPASSWD="toor"
+RTPASSWD="qixiu"
 # Pick a root password
 
-MYHOSTNM="ezarcher"
+MYHOSTNM="qixiu"
 # Pick a hostname for the machine
 
 # ----------------------------------------
@@ -82,13 +82,13 @@ cp /etc/pacman.conf /etc/pacman.conf.prev
 echo "# Temporarily add ezrepo.
 [ezrepo]
 SigLevel = Optional TrustAll
-Server = file:///opt/ezrepo" >> /etc/pacman.conf
+Server = file:///opt/qixiu" >> /etc/pacman.conf
 pacman -Sy
 }
 
 # Remove ezrepo from opt
 rmezrepo () {
-rm -r /opt/ezrepo
+rm -r /opt/qixiu
 }
 
 # Restore original pacman.conf
