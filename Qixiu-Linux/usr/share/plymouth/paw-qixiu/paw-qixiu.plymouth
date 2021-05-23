@@ -1,0 +1,10 @@
+[Plymouth Theme]
+Name=Paw Qixiu
+Description=Paw theme modified for Qixiu Linux
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/paw-qixiu
+ScriptFile=/usr/share/plymouth/themes/paw-cdesk/paw-qixiu.script
+
+
