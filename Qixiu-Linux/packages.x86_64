@@ -256,6 +256,7 @@ geany
 meld
 neofetch
 papirus-icon-theme
+lolcat
 
 # Fonts
 ttf-dejavu
@@ -270,6 +271,8 @@ noto-fonts
 opendesktop-fonts
 ttf-opensans
 freetype2
+wqy-zenhei
+wqy-microhei
 
 # Printing Support
 cups
@@ -310,6 +313,8 @@ plasma
 print-manager
 qbittorrent
 sweeper
+yakuake
+yay
 
 # Display Manager
 sddm
