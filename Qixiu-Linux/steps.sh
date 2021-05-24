@@ -73,7 +73,7 @@ cp -r /usr/share/archiso/configs/releng/ ./
 
 # Copy ezrepo to opt
 cpezrepo () {
-cp -r ./opt/ /opt/
+cp -r ./opt/qixiu /opt/
 }
 
 # Add ezrepo to pacman.conf
@@ -132,7 +132,7 @@ cp -r syslinux ./releng/
 cp -r usr ./releng/airootfs/
 cp -r etc ./releng/airootfs/
 cp -r opt ./releng/airootfs/
-ln -sf /usr/share/ezarcher ./releng/airootfs/etc/skel/ezarcher
+#ln -sf /usr/share/ezarcher ./releng/airootfs/etc/skel/ezarcher
 }
 
 # Set hostname
