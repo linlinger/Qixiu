@@ -73,7 +73,7 @@ cp -r /usr/share/archiso/configs/releng/ ./
 
 # Copy ezrepo to opt
 cpezrepo () {
-cp -r ./opt/ezrepo /opt/
+cp -r ./opt/ /opt/
 }
 
 # Add ezrepo to pacman.conf
