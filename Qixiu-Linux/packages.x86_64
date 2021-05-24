@@ -358,3 +358,6 @@ calamares
 ckbcomp
 mkinitcpio-openswap
 
+#Boot animation
+plymouth
+
