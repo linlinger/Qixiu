@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
 
-iso_name="ezarcher-kde"
-iso_label="EZARCHER-KDE_$(date +%Y%m)"
-iso_publisher="Ezarcher Linux <https://sourceforge.net/projects/ezarch/>"
-iso_application="Ezarcher DVD"
+iso_name="qixiu-kde"
+iso_label="Qixiu-KDE_$(date +%Y%m)"
+iso_publisher="Qixiu Linux <https://github.com/linlinger/qixiu/>"
+iso_application="Qixiu DVD"
 iso_version="$(date +%Y.%m.%d)"
 install_dir="arch"
 buildmodes=('iso')
