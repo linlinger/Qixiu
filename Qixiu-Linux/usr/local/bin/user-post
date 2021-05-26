@@ -1,0 +1,20 @@
+#!/bin/bash
+# A script to copy some config to user directories.
+desktop=`cat $HOME/.config/user-dirs.dirs | grep DESKTOP | tail  -1  |cut -d '=' -f 2  | sed 's/\"//g'`
+templates=`cat $HOME/.config/user-dirs.dirs | grep TEMPLATE | tail  -1  |cut -d '=' -f 2  | sed 's/\"//g'`
+desktopPath=`eval echo $desktop`
+templatePath=`eval echo $templates`
+
+cp /usr/share/cdesk/Desktop/* $desktopPath
+chmod a+x $desktopPath/*.desktop
+cp /usr/share/cdesk/Templates/* $templatePath
+
+
+cp /usr/share/cdesk/.zshrc $HOME/
+cp /usr/share/cdesk/.bashrc $HOME/
+source $HOME/.zshrc
+source $HOME/.bashrc
+
+
+rm $HOME/.config/autostart/user-post.desktop
+
