@@ -1,0 +1,28 @@
+#!/bin/bash
+#a Update script to update STOS Linux
+#Update databases
+sudo pacman -Syy
+
+if [ $? -ne 0 ] ;then
+
+echo "Failed to update package databases. Please check your internet connection and try again."
+exit
+fi
+#Updatte keyrings before updating system
+sudo pacman -S archlinux-keyring archlinuxcn-keyring --noconfirm
+
+if [ $? -ne 0 ] ;then
+
+echo "Failed to update keyrings. Please check your internet connection or disk space and try again."
+exit
+fi
+
+sudo pacman -Syyu --noconfirm
+
+if [ $? -ne 0 ];then
+echo "Failed to update system. Please check your internet connection or disk space and try again."
+exit
+else
+echo "Update completed."
+sleep 2
+fi

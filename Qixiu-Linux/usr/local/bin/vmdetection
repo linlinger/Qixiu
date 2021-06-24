@@ -2,12 +2,12 @@
 #A script to detect if a systemd based Linux running on Virtual Machine or not.
 #Author linlinger
 rootcheck(){
-	  if [[ "$EUID" = 0 ]]; then
-    continue
-  else
-    echo "It is advised to run this script using root.Or you may be asked to enter password."
+if [[ "$EUID" = 0 ]]; then
+	echo "Got root permission"	
+else
+    	echo "It is advised to run this script using root.Or you may be asked to enter password."
 	sleep 2
-  fi
+fi
 }
 vmdetection(){
 vmstatus=$(systemd-detect-virt)

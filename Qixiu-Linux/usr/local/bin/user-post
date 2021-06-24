@@ -5,15 +5,7 @@ templates=`cat $HOME/.config/user-dirs.dirs | grep TEMPLATE | tail  -1  |cut -d 
 desktopPath=`eval echo $desktop`
 templatePath=`eval echo $templates`
 
-cp /usr/share/cdesk/Desktop/* $desktopPath
-chmod a+x $desktopPath/*.desktop
-cp /usr/share/cdesk/Templates/* $templatePath
 
-
-cp /usr/share/cdesk/.zshrc $HOME/
-cp /usr/share/cdesk/.bashrc $HOME/
-source $HOME/.zshrc
-source $HOME/.bashrc
 
 
 rm $HOME/.config/autostart/user-post.desktop
