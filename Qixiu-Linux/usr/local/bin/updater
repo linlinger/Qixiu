@@ -1,5 +1,5 @@
 #!/bin/bash
-#a Update script to update STOS Linux
+#a Update script to update Arch based Linux
 #Update databases
 sudo pacman -Syy
 
