@@ -316,6 +316,7 @@ sweeper
 yakuake
 yay
 gsettings-qt
+plasma-wayland-session
 
 # Display Manager
 sddm
