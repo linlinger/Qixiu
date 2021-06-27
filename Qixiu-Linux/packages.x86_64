@@ -364,5 +364,5 @@ mkinitcpio-openswap
 #Boot animation
 plymouth
 
-input method
+#input method
 fcitx-configtool
