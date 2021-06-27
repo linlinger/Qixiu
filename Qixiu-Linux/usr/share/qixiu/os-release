@@ -1,0 +1,10 @@
+NAME="Qixiu Linux"
+PRETTY_NAME="Qixiu Linux"
+ID=arch
+BUILD_ID=2021
+ANSI_COLOR="43;2;23;148;210"
+HOME_URL="https://github.com/linlinger/qixiu-linux"
+DOCUMENTATION_URL="https://github.com/linlinger/qixiu-linux"
+SUPPORT_URL="https://github.com/linlinger/qixiu-linux"
+BUG_REPORT_URL="https://github.com/linlinger/qixiu-linux"
+LOGO=qixiu

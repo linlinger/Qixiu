@@ -1,0 +1,22 @@
+#!/bin/bash
+#Author linlinger
+#! Post-installation jobs
+servicesManagement(){
+rm /etc/systemd/system/multi-user.target.wants/post-setup.service
+rm /etc/systemd/system/multi-user.target.wants/localegen.service
+}
+
+
+files(){
+cp -f /usr/share/qixiu/os-release /usr/lib/
+}
+
+plymouth(){
+cp /usr/share/qixiu/mkinitcpio.conf /etc
+mkinitcpio -p linux
+}
+
+servicesManagement
+files
+plymouth
+vmdetection

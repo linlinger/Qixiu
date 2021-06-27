@@ -29,5 +29,6 @@ file_permissions=(
   ["/usr/share/ezarcher/Scripts/updater"]="0:0:755"
   ["/usr/share/ezarcher/Scripts/vmdetection"]="0:0:755"
   ["/usr/share/ezarcher/Scripts/user-post"]="0:0:755"
+  ["/usr/share/ezarcher/Scripts/post-install"]="0:0:755"
 
 )
