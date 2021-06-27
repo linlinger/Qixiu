@@ -317,6 +317,7 @@ yakuake
 yay
 gsettings-qt
 plasma-wayland-session
+qt5-virtualkeyboard
 
 # Display Manager
 sddm
