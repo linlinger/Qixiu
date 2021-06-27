@@ -315,6 +315,7 @@ qbittorrent
 sweeper
 yakuake
 yay
+gsettings-qt
 
 # Display Manager
 sddm
