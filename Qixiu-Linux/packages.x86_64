@@ -157,6 +157,7 @@ unrar
 unzip
 xdg-user-dirs
 xz
+yay
 
 # Filesystem
 gvfs
@@ -314,7 +315,7 @@ print-manager
 qbittorrent
 sweeper
 yakuake
-yay
+spectacle
 gsettings-qt
 plasma-wayland-session
 qt5-virtualkeyboard
