@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Trash
+Comment=Contains removed files
+Icon=user-trash-empty
+EmptyIcon=user-trash
+Type=Link
+URL=trash:/
+OnlyShowIn=KDE;xfce

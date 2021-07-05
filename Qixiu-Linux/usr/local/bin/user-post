@@ -5,7 +5,7 @@ templates=`cat $HOME/.config/user-dirs.dirs | grep TEMPLATE | tail  -1  |cut -d 
 desktopPath=`eval echo $desktop`
 templatePath=`eval echo $templates`
 
-
+cp /usr/share/calamares.desktop $desktopPath
 
 
 rm $HOME/.config/autostart/user-post.desktop
