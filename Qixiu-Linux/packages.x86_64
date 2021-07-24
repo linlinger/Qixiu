@@ -368,3 +368,7 @@ plymouth
 #input method
 fcitx-configtool
 fcitx-qt5
+
+
+#Android udev rules
+android-udev
