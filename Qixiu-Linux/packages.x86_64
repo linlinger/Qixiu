@@ -196,20 +196,20 @@ mencoder
 mjpegtools
 poppler-glib
 # Pipewire - comment pulseaudio packages if using pipewire
-# pipewire
-# pipewire-alsa
-# pipewire-docs
-# pipewire-jack
-# pipewire-media-session
-# pipewire-pulse
-# alsa-card-profiles
-# gst-plugin-pipewire
+pipewire
+pipewire-alsa
+pipewire-docs
+pipewire-jack
+pipewire-media-session
+pipewire-pulse
+alsa-card-profiles
+gst-plugin-pipewire
 # Pulseaudio - comment pipewire packages if using pulseaudio
-pulseaudio
-pulseaudio-alsa
-pulseaudio-bluetooth
-pulseaudio-equalizer
-pulseaudio-jack
+#pulseaudio
+#pulseaudio-alsa
+#pulseaudio-bluetooth
+#pulseaudio-equalizer
+#pulseaudio-jack
 quodlibet
 simplescreenrecorder
 sox
