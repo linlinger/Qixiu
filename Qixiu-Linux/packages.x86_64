@@ -365,10 +365,15 @@ mkinitcpio-openswap
 #Boot animation
 plymouth
 
-#input method
+#input method & Chinese input support
 fcitx-configtool
 fcitx-qt5
-
+fcitx-linpinyin
 
 #Android udev rules
 android-udev
+
+#zsh enhancements
+zsh-autosuggestions
+zsh-completions
+zsh-syntax-highlightling
