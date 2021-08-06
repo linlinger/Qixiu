@@ -52,3 +52,5 @@ GRUB_DISABLE_RECOVERY=true
 # Uncomment to make GRUB remember the last selection. This requires
 # setting 'GRUB_DEFAULT=saved' above.
 #GRUB_SAVEDEFAULT="true"
+# Enable os-prober
+GRUB_DISABLE_OS_PROBER=false

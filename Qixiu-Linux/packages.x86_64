@@ -204,6 +204,8 @@ pipewire-media-session
 pipewire-pulse
 alsa-card-profiles
 gst-plugin-pipewire
+bluez
+bluez-utils
 # Pulseaudio - comment pipewire packages if using pulseaudio
 #pulseaudio
 #pulseaudio-alsa
