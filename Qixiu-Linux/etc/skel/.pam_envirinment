@@ -1,3 +1,5 @@
-GTK_IM_MODULE DEFAULT=fcitx5
-QT_IM_MODULE DEFAULT=fcitx5
-XMODIFIERS DEFAULT=@im=fcitx5
+export XIM_PROGRAM=fcitx
+export XIM=fcitx
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
