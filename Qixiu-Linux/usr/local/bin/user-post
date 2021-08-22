@@ -1,12 +1,20 @@
 #!/bin/bash
 # A script to copy some config to user directories.
+desktopfiles(){
 desktop=`cat $HOME/.config/user-dirs.dirs | grep DESKTOP | tail  -1  |cut -d '=' -f 2  | sed 's/\"//g'`
 templates=`cat $HOME/.config/user-dirs.dirs | grep TEMPLATE | tail  -1  |cut -d '=' -f 2  | sed 's/\"//g'`
 desktopPath=`eval echo $desktop`
 templatePath=`eval echo $templates`
-
 cp /usr/share/calamares.desktop $desktopPath
-
-
+}
+cleanup(){
 rm $HOME/.config/autostart/user-post.desktop
+}
+kdecustomizations(){
+plasma-apply-wallpaperimage /usr/share/Pictures/xiufang-gate.jpg
+}
 
+###################Run funictions##################
+desktopfiles
+kdecustomizations
+cleanup
