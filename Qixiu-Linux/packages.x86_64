@@ -274,6 +274,7 @@ noto-fonts
 opendesktop-fonts
 ttf-opensans
 freetype2
+unicode-emoji
 wqy-zenhei
 wqy-microhei
 
@@ -305,6 +306,7 @@ gocryptfs
 gwenview
 k3b
 kcalc
+kget
 konsole
 kwrite
 networkmanager-qt
