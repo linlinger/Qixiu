@@ -98,7 +98,7 @@ syslinux
 systemd-resolvconf
 tcpdump
 terminus-font
-termite-terminfo
+#termite-terminfo
 testdisk
 tmux
 tpm2-tss
@@ -372,7 +372,7 @@ plymouth
 #input method & Chinese input support
 fcitx-configtool
 fcitx-qt5
-fcitx-linpinyin
+fcitx-libpinyin
 
 #Android udev rules
 android-udev
@@ -380,4 +380,4 @@ android-udev
 #zsh enhancements
 zsh-autosuggestions
 zsh-completions
-zsh-syntax-highlightling
+zsh-syntax-highlighting
