@@ -204,8 +204,8 @@ EndSection" > ./releng/airootfs/etc/X11/xorg.conf.d/00-keyboard.conf
 
 # Fix 40-locale-gen.hook and create locale.conf
 crtlocalec () {
-sed -i "s/en_US/"${LCLST}"/g" ./ezreleng/airootfs/etc/pacman.d/hooks/40-locale-gen.hook
-echo "LANG="${LCLST}".UTF-8" > ./ezreleng/airootfs/etc/locale.conf
+sed -i "s/en_US/"${LCLST}"/g" ./releng/airootfs/etc/pacman.d/hooks/40-locale-gen.hook
+echo "LANG="${LCLST}".UTF-8" > ./releng/airootfs/etc/locale.conf
 }
 
 
