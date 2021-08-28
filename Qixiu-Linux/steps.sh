@@ -199,11 +199,12 @@ echo "Section \"InputClass\"
 EndSection" > ./releng/airootfs/etc/X11/xorg.conf.d/00-keyboard.conf
 }
 
-# Create locale.gen and locale.conf files
+# Fix 40-locale-gen.hook and create locale.conf
 crtlocalec () {
-echo ""${LCLST}".UTF-8 UTF-8" >> ./releng/airootfs/etc/locale.gen
-echo "LANG="${LCLST}".UTF-8" > ./releng/airootfs/etc/locale.conf
+sed -i "s/en_US/"${LCLST}"/g" ./ezreleng/airootfs/etc/pacman.d/hooks/40-locale-gen.hook
+echo "LANG="${LCLST}".UTF-8" > ./ezreleng/airootfs/etc/locale.conf
 }
+
 
 # Start mkarchiso
 runmkarchiso () {

@@ -22,7 +22,6 @@ file_permissions=(
   ["/usr/local/bin/Installation_guide"]="0:0:755"
   ["/usr/local/bin/livecd-sound"]="0:0:755"
   ["/usr/local/bin/ezmaint"]="0:0:755"
-  ["/usr/local/bin/localegen.sh"]="0:0:755"
   ["/usr/share/ezarcher/Scripts/ezarch.bios"]="0:0:755"
   ["/usr/share/ezarcher/Scripts/ezarch.uefi"]="0:0:755"
   ["/usr/share/ezarcher/Scripts/ezmaint"]="0:0:755"
