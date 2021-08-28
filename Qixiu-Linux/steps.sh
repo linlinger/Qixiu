@@ -120,8 +120,11 @@ ln -sf /usr/lib/systemd/system/NetworkManager-dispatcher.service ./releng/airoot
 ln -sf /usr/lib/systemd/system/localegen.service ./releng/airootfs/etc/systemd/system/multi-user.target.wants/localegen.service
 ln -sf /usr/lib/systemd/system/sddm.service ./releng/airootfs/etc/systemd/system/display-manager.service
 ln -sf /usr/lib/systemd/system/haveged.service ./releng/airootfs/etc/systemd/system/sysinit.target.wants/haveged.service
+#Enable Bluetooth Service
+mkdir ./releng/airootfs/etc/systemd/system/bluetooth.target.wants/
 ln -sf /usr/lib/systemd/system/bluetooth.service ./releng/airootfs/etc/systemd/system/dbus-org.bluez.service
 ln -sf /usr/lib/systemd/system/bluetooth.service ./releng/airootfs/etc/systemd/system/bluetooth.target.wants/bluetooth.service
+
 }
 
 # Copy files to customize the ISO
