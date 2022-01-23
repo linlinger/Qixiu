@@ -365,3 +365,6 @@ android-udev
 zsh-autosuggestions
 zsh-completions
 zsh-syntax-highlighting
+
+#Backup
+timeshift
