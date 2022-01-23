@@ -74,6 +74,7 @@ ntfs-3g
 nvme-cli
 openconnect
 openssh
+open-vm-tools
 openvpn
 partclone
 parted
@@ -107,7 +108,7 @@ usb_modeswitch
 usbmuxd
 usbutils
 vim
-virtualbox-guest-utils-nox
+virtualbox-guest-utils
 vpnc
 wireless-regdb
 wireless_tools
@@ -171,9 +172,6 @@ gvfs-smb
 # Multimedia
 alsa-plugins
 alsa-firmware
-asunder
-cdrdao
-dvdauthor
 faac
 faad2
 ffmpeg
@@ -212,15 +210,10 @@ bluez-utils
 #pulseaudio-bluetooth
 #pulseaudio-equalizer
 #pulseaudio-jack
-quodlibet
-simplescreenrecorder
-sox
-transcode
 vlc
 x265
 x264
 xvidcore
-youtube-dl
 
 # XORG
 mesa
@@ -235,11 +228,8 @@ xterm
 # Networking
 avahi
 curl
-dnsutils
-ethtool
 filezilla
 firefox
-gnome-nettool
 modemmanager
 netctl
 networkmanager
@@ -251,12 +241,8 @@ nss-mdns
 openresolv
 r8168
 wget
-whois
 
 # Desktop
-aisleriot
-geany
-meld
 neofetch
 papirus-icon-theme
 lolcat
@@ -304,13 +290,11 @@ dolphin
 encfs
 gocryptfs
 gwenview
-k3b
 kcalc
 kget
 konsole
 kwrite
 networkmanager-qt
-okular
 packagekit-qt5
 pavucontrol
 pavucontrol-qt
@@ -318,6 +302,7 @@ plasma
 print-manager
 qbittorrent
 sweeper
+transmission-qt
 yakuake
 spectacle
 gsettings-qt
@@ -370,9 +355,8 @@ mkinitcpio-openswap
 plymouth
 
 #input method & Chinese input support
-fcitx-configtool
-fcitx-qt5
-fcitx-libpinyin
+fcitx5-im
+fcitx5-chinese-addons
 
 #Android udev rules
 android-udev
