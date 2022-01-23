@@ -13,7 +13,7 @@ cp -f /usr/share/qixiu/os-release /usr/lib/
 
 plymouth(){
 cp /usr/share/qixiu/mkinitcpio.conf /etc
-mkinitcpio -p linux
+mkinitcpio -P
 }
 
 servicesManagement
