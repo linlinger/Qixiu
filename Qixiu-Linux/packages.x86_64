@@ -368,3 +368,7 @@ zsh-syntax-highlighting
 
 #Backup
 timeshift
+
+#Keyrings
+archlinux-keyring
+archlinuxcn-keyring
