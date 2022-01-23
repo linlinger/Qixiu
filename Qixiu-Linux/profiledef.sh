@@ -27,8 +27,8 @@ file_permissions=(
   ["/usr/share/ezarcher/Scripts/ezarch.uefi"]="0:0:755"
   ["/usr/share/ezarcher/Scripts/ezmaint"]="0:0:755"
   ["/usr/local/bin/updater"]="0:0:755"
-  ["/usr/share/ezarcher/Scripts/vmdetection"]="0:0:755"
-  ["/usr/share/ezarcher/Scripts/user-post"]="0:0:755"
-  ["/usr/share/ezarcher/Scripts/post-install"]="0:0:755"
+  ["/usr/local/bin/vmdetection"]="0:0:755"
+  ["/usr/local/bin/user-post"]="0:0:755"
+  ["/usr/local/bin/post-install"]="0:0:755"
 
 )
